@@ -1,9 +1,17 @@
-import csv
-import os
+import pandas as pd
 
 
-class CSVSerializer:
+def process_csv(input_path):
+    return pd.read_csv(input_path, delimiter='\t', encoding='latin1')
 
-    def __init__(self, path):
-        self.csv_file = None
-        self.csv_writer = None
+
+def deserialize(input_path):
+    data_frame = process_csv(input_path)
+    data_frame.head()
+    radix_list = data_frame[["PROCESO_ID", "RADICACION"]]
+    print(radix_list)
+    return radix_list
+
+
+def serialize():
+    pass

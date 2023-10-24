@@ -1,14 +1,20 @@
-import model.RadixModel as RadixModel
+import time
+
+import serialize.CSVSerializer as Serializer
+
+input_path = 'E:\\Testing\\Litigando\\RadicadosMasivos\\VM_CIVILES.txt'
+output_path = 'E:\\Testing\\Litigando\\RadicadosMasivos\\VM_CIVILES_OUTPUT.txt'
 
 
 def init():
-    starter_model = RadixModel.RadixModel()
-
-    starter_model.__add__(1, 'AAAAAAA')
-    starter_model.__add__(2, 'BBBBBBB')
-    starter_model.__add__(3, 'CCCCCCC')
-
-    print(starter_model)
+    initial_epoch = round(time.time() * 1000)
+    print('[!] Iniciando proceso de serialización...')
+    # TODO: This process consume 10MiB of RAM
+    #  review code for optimization this process
+    all_radix = Serializer.deserialize(input_path)
+    final_epoch = round(time.time() * 1000)
+    print('[!] Procesando un total de: ' + str(len(all_radix)))
+    print('[!] Corrido en un tiempo de: ' + str(final_epoch - initial_epoch) + 'ms')
 
 
 init()

@@ -17,3 +17,6 @@ class RadixModel:
 
     def __str__(self):
         return str(self.radix_formatted)
+
+    def __get__(self, base_id):
+        return self.radix_formatted[base_id]
