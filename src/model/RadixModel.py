@@ -20,3 +20,9 @@ class RadixModel:
 
     def __get__(self, base_id):
         return self.radix_formatted[base_id]
+
+    def __get_all__(self):
+        return self.radix_formatted
+
+    def __sizeof__(self):
+        return len(self.radix_formatted)
