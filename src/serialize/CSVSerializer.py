@@ -9,9 +9,8 @@ def deserialize(input_path):
     data_frame = process_csv(input_path)
     data_frame.head()
     radix_list = data_frame[["PROCESO_ID", "RADICACION"]]
-    print(radix_list)
     return radix_list
 
 
-def serialize():
-    pass
+def serialize(output_path, data_frame):
+    data_frame.to_csv(output_path, sep=';', index=False)
