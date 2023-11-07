@@ -4,26 +4,66 @@ from manager.radix import RadixShortManager, RadixLongManager
 from src.util import FormatUtil
 
 
-class RadixFormatManager:
+def init_format(data_frame):
+    if data_frame is None:
+        raise Exception('No se ha cargado ningún archivo o simplemente hubo un error al cargarlo.')
 
-    def __init__(self, data_frame):
-        self.data_frame = data_frame
-        self.data_frame['RADICADO_C9'] = np.nan
-        self.data_frame['RADICADO_C10'] = np.nan
-        self.format()
+    data_frame['LARGO_RADICADO'] = np.nan
+    data_frame['RADICADO_VIRGEN'] = np.nan
+    data_frame['LARGO_RADICADO_VIRGEN'] = np.nan
+    data_frame['RADICADO_C9'] = np.nan
+    data_frame['LARGO_RAD_C9'] = np.nan
+    data_frame['RADICADO_C10'] = np.nan
+    data_frame['LARGO_RAD_C10'] = np.nan
 
-    def format(self):
-        if self.data_frame is None:
-            raise Exception('No se ha cargado ningún archivo o simplemente hubo un error al cargarlo.')
+    data_frame['RADICADO_VIRGEN'] = data_frame['RADICADO_VIRGEN'].astype('object')
+    data_frame['LARGO_RADICADO_VIRGEN'] = data_frame['LARGO_RADICADO_VIRGEN'].astype('object')
+    data_frame['LARGO_RADICADO'] = data_frame['LARGO_RADICADO'].astype('object')
+    data_frame['RADICADO_C9'] = data_frame['RADICADO_C9'].astype('object')
+    data_frame['RADICADO_C10'] = data_frame['RADICADO_C10'].astype('object')
+    data_frame['LARGO_RAD_C9'] = data_frame['LARGO_RAD_C9'].astype('object')
+    data_frame['LARGO_RAD_C10'] = data_frame['LARGO_RAD_C10'].astype('object')
 
-        for index, row in self.data_frame.iterrows():
-            value = row['RADICACION']
-            if FormatUtil.is_short(value):
-                self.data_frame.at[index, 'RADICADO_C9'] = RadixShortManager.format_c9(value)
-                self.data_frame.at[index, 'RADICADO_C10'] = RadixShortManager.format_c10(value)
-            elif FormatUtil.is_long(value):
-                self.data_frame.at[index, 'RADICADO_C10'] = RadixLongManager.format_c10(value)
-                self.data_frame.at[index, 'RADICADO_C9'] = RadixLongManager.format_c9(value)
-            else:
-                self.data_frame.at[index, 'RADICADO_C9'] = '0'
-                self.data_frame.at[index, 'RADICADO_C10'] = '0'
+    if data_frame is None:
+        raise Exception('No se ha cargado ningún archivo o simplemente hubo un error al cargarlo.')
+
+    for index, row in data_frame.iterrows():
+        value = row['RADICACION']
+
+        if value is None or value == '':
+            data_frame.at[index, 'LARGO_RADICADO'] = 'Valor nulo'
+            continue
+
+        if value is None or value == '':
+            data_frame.at[index, 'LARGO_RADICADO'] = 'Valor nulo'
+            continue
+
+        data_frame.at[index, 'LARGO_RADICADO'] = str(value).__len__()
+        clean_value = FormatUtil.clean_numbers(value)
+        data_frame.at[index, 'RADICADO_VIRGEN'] = str("." + clean_value)
+        data_frame.at[index, 'LARGO_RADICADO_VIRGEN'] = str(clean_value).__len__()
+        if FormatUtil.is_short(value):
+            format_value_c9 = RadixShortManager.format_c9(value)
+            format_value_c10 = RadixShortManager.format_c10(value)
+            set_values(data_frame, index, format_value_c9, format_value_c10)
+        elif FormatUtil.is_long(value):
+            format_value_c9 = RadixLongManager.format_c9(value)
+            format_value_c10 = RadixLongManager.format_c10(value)
+            set_values(data_frame, index, format_value_c9, format_value_c10)
+        else:
+            set_values(data_frame, index, '0', '0')
+
+
+def set_values(data_frame, index, value_c9, value_c10):
+    data_frame.at[index, 'RADICADO_C9'] = value_c9
+    data_frame.at[index, 'RADICADO_C10'] = value_c10
+
+    if value_c9 is None:
+        data_frame.at[index, 'LARGO_RAD_C9'] = 0
+    else:
+        data_frame.at[index, 'LARGO_RAD_C9'] = str(len(value_c9))
+
+    if value_c10 is None:
+        data_frame.at[index, 'LARGO_RAD_C10'] = 0
+    else:
+        data_frame.at[index, 'LARGO_RAD_C10'] = str(value_c9).__len__()
