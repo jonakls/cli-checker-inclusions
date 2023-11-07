@@ -1,25 +1,21 @@
 import time
 
 import serialize.CSVSerializer as Serializer
-from manager.radix.RadixFormatManager import RadixFormatManager
+from manager.radix import RadixFormatManager
 
-input_path = 'E:\\Testing\\Litigando\\RadicadosMasivos\\VM_CIVILES_GRANDE.txt'
-output_path = 'E:\\Testing\\Litigando\\RadicadosMasivos\\RADICADOS_RESUELTOS.csv'
+input_path = 'E:\\Testing\\Litigando\\INGE\\ARREGLAR_RADICADOS_JONATHAN.xlsx'
+output_path = 'E:\\Testing\\Litigando\\INGE\\RADICADOS_RESUELTOS.csv'
 
 
 def init():
     initial_epoch = round(time.time() * 1000)
-    print('[!] Iniciando proceso de serialización...')
+    print('[!] Iniciando proceso de formato de radicados...')
     data_frame = Serializer.deserialize(input_path)
-    print('[!] Serialización finalizada.')
-
-    print('[!] Iniciando proceso de formateo...')
-    radix_manager = RadixFormatManager(data_frame)
-    print('[!] Formateo finalizado.')
+    RadixFormatManager.init_format(data_frame)
     Serializer.serialize(output_path, data_frame)
-
     final_epoch = round(time.time() * 1000)
-    print('[!] Corrido en un tiempo de: ' + str(final_epoch - initial_epoch) + 'ms')
+    print(f'[!] Se cargaron {len(data_frame)} registros de: {input_path}')
+    print(f'[!] Finalizado en: {str((final_epoch - initial_epoch) / 1000)} segundos')
 
 
 init()
