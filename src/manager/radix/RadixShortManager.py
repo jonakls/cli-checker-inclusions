@@ -1,56 +1,51 @@
-import datetime
-
 from util import FormatUtil
 
 
 def format_c9(value):
-    clean_value = FormatUtil.clean_numbers(value)
-
-    if len(str(clean_value)) == 9:
-        year = extract_year(clean_value)
-        if year is None:
-            return None
-        process = extract_process(clean_value)
-        if process is None:
-            return None
-        return str(year) + str(process)
-
-    return str(clean_value)
+    generic_value = generic_format(value)
+    if generic_value is None:
+        return ''
+    if len(generic_value) == 1:
+        return f'{generic_value[0]}'
+    elif len(generic_value) == 2:
+        return f'{generic_value[0]}{generic_value[1]}'
+    return ''
 
 
 def format_c10(value):
+    generic_value = generic_format(value)
+    if generic_value is None:
+        return ''
+    if len(generic_value) == 1:
+        return f'{generic_value[0]}'
+    if len(generic_value) == 2:
+        return f'{generic_value[0]}-{generic_value[1]}'
+    return ''
+
+
+def generic_format(value):
     clean_value = FormatUtil.clean_numbers(value)
 
-    if len(str(clean_value)) == 9:
-        year = extract_year(clean_value)
+    if len(str(clean_value)) <= 10:
+        year = FormatUtil.extract_year(value)
         if year is None:
             return None
-        process = extract_process(clean_value)
+
+        if not isinstance(year, list):
+            clean_value = clean_value.replace(year, "")
+            process = FormatUtil.extract_process(clean_value)
+        else:
+            clean_value = clean_value.replace(year[1], "")
+            year = year[0]
+            process = FormatUtil.extract_process(clean_value)
+
         if process is None:
             return None
-        return str(year) + '-' + str(process)
+        return [year, process]
 
-    return str(clean_value)
+    year = FormatUtil.extract_year(clean_value)
+    if year is None:
+        return None
+    clean_value = clean_value.replace(year, "")
 
-
-def extract_year(value):
-    year = abs(int(value[0:4]))
-
-    if year <= 1995 or year >= datetime.datetime.now().year:
-        year = abs(int(value[5:9]))
-        if year <= 1995 or year >= datetime.datetime.now().year:
-            return None
-    return year
-
-
-def extract_process(value):
-    process = value[4:]
-
-    if len(process) > 5:
-        process = abs(process)
-        raw_value = str(process)
-
-        if len(raw_value) > 5:
-            raw_value = FormatUtil.cut_process(raw_value)
-        process = FormatUtil.fill_process(raw_value)
-    return process
+    return [str(clean_value)]
