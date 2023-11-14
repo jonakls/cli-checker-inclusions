@@ -4,16 +4,6 @@ import datetime
 number_pattern = r'[0-9]*'
 number_pattern_white_script = r'[0-9-]*'
 
-splitters = {
-    '-': '',
-    '/': '',
-    '.': '',
-    ',': '',
-    ':': '',
-    ';': '',
-    '|': ''
-}
-
 
 def clean_numbers(value):
     list_numbers = regex.findall(number_pattern, str(value))
