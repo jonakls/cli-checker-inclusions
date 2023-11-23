@@ -1,7 +1,8 @@
 import numpy as np
 
-from manager.radix import RadixShortManager, RadixLongManager
-from src.util import FormatUtil
+from organizer.manager.radix import RadixLongManager
+from organizer.manager.radix import RadixShortManager
+from organizer.util import FormatUtil
 
 
 def init_format(data_frame):

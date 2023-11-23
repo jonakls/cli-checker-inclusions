@@ -1,8 +1,8 @@
 import time
 
-import serialize.CSVSerializer as Serializer
-from manager.radix import RadixFormatManager
-from util import DataFrameUtil
+from organizer import serialize as Serializer
+from organizer.manager.radix import RadixFormatManager
+from organizer.util import DataFrameUtil
 
 
 def init_dataframe(data_frame):
@@ -29,3 +29,9 @@ def init_path(input_path, output_path):
     final_epoch = round(time.time() * 1000)
     print(f'[!] Se cargaron {len(data_frame)} registros de: {input_path}')
     print(f'[!] Finalizado en: {str((final_epoch - initial_epoch) / 1000)} segundos')
+
+
+init_path(
+    "G:\\Mi unidad\\TRABAJO\\VERIFICACION\\NOVIEMBRE\\15\\Inclusiones Banco Davivienda BPJ - Noviembre\\rad.xlsx",
+    "G:\\Mi unidad\\TRABAJO\\VERIFICACION\\NOVIEMBRE\\15\\Inclusiones Banco Davivienda BPJ - Noviembre\\results.csv"
+)
