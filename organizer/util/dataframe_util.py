@@ -6,10 +6,11 @@ def isvalid(df):
 
     if 'ID_BASE' not in df.columns:
         return False
-    if 'ID_PROCESO' not in df.columns:
+    elif 'ID_PROCESO' not in df.columns:
         return False
-    if 'ID_INCLUSION_CLIENTE' not in df.columns:
+    elif 'ID_INCLUSION_CLIENTE' not in df.columns:
         return False
+
     if 'RADICACION' not in df.columns:
         return False
     return True
