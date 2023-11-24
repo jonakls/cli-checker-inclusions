@@ -1,11 +1,10 @@
 import numpy as np
 
-from organizer.manager.radix import RadixLongManager
-from organizer.manager.radix import RadixShortManager
-from organizer.util import FormatUtil
-
 
 def init_format(data_frame):
+    from organizer.manager import RadixShortManager
+    from organizer.manager import RadixLongManager
+    from organizer.util import FormatUtil
     if data_frame is None:
         raise Exception('No se ha cargado ningún archivo o simplemente hubo un error al cargarlo.')
 

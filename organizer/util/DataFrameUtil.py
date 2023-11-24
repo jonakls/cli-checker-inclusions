@@ -1,4 +1,3 @@
-
 def isvalid(df):
     if df is None:
         return False

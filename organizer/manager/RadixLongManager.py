@@ -1,8 +1,8 @@
-from organizer.util import FormatUtil
-
-
 def format_c9(value):
-    generic_value = generic_format(value)
+    from organizer.util import FormatUtil
+    clean_value = FormatUtil.clean_numbers(value)
+
+    generic_value = generic_format(clean_value)
     if generic_value is None:
         return ''
     if len(generic_value) == 1:
@@ -13,7 +13,10 @@ def format_c9(value):
 
 
 def format_c10(value):
-    generic_value = generic_format(value)
+    from organizer.util import FormatUtil
+    clean_value = FormatUtil.clean_numbers(value)
+
+    generic_value = generic_format(clean_value)
     if generic_value is None:
         return ''
     if len(generic_value) == 1:
@@ -24,28 +27,21 @@ def format_c10(value):
 
 
 def generic_format(value):
+    from organizer.util import FormatUtil
     clean_value = FormatUtil.clean_numbers(value)
 
-    if len(str(clean_value)) <= 10:
-        year = FormatUtil.extract_year(value)
-        if year is None:
-            return None
-
-        if not isinstance(year, list):
-            clean_value = clean_value.replace(year, "")
-            process = FormatUtil.extract_process(clean_value)
-        else:
-            clean_value = clean_value.replace(year[1], "")
-            year = year[0]
-            process = FormatUtil.extract_process(clean_value)
-
-        if process is None:
-            return None
-        return [year, process]
-
     year = FormatUtil.extract_year(clean_value)
+
     if year is None:
         return None
-    clean_value = clean_value.replace(year, "")
 
-    return [str(clean_value)]
+    position = clean_value.find(year)
+    clean_value = clean_value.replace(year, "")
+    process = FormatUtil.extract_process(clean_value[position:])
+    if process is not None:
+        return [year, process]
+
+    process = FormatUtil.extract_process(clean_value[:position])
+    if process is not None:
+        return [year, process]
+    return None
