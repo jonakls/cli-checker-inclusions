@@ -21,7 +21,7 @@ def format_c10(value):
 
 
 def generic_format(value):
-    from organizer.util import FormatUtil
+    from radix_organizer.util import FormatUtil
     clean_value = FormatUtil.clean_numbers(value)
 
     if len(str(clean_value)) <= 10:
