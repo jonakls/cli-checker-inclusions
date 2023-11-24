@@ -29,3 +29,8 @@ def init_path(input_path, output_path):
     final_epoch = round(time.time() * 1000)
     print(f'[!] Se cargaron {len(data_frame)} registros de: {input_path}')
     print(f'[!] Finalizado en: {str((final_epoch - initial_epoch) / 1000)} segundos')
+
+
+final_dataframe = deserialize("E:\\Testing\\Litigando\\RadicadosMasivos\\RADIX_TESTING.xlsx")
+print(final_dataframe)
+init_dataframe(final_dataframe)
