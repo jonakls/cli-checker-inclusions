@@ -294,3 +294,5 @@
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/vcs.xml
 /.idea/workspace.xml
+/test/execute_task.py
+/.idea/modules.xml
