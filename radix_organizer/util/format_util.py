@@ -1,4 +1,4 @@
-import re as regex  # Library for regular expressions
+import re as regex
 import datetime
 
 number_pattern = r'[0-9]*'
